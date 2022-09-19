@@ -1,16 +1,34 @@
-# Vue 3 + TypeScript + Vite
+Reproducing https://github.com/cypress-io/cypress/issues/23653
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+1. `yarn`
+2. `yarn vue-tsc --noEmit`
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Error!
 
-## Type Support For `.vue` Imports in TS
+```
+$ yarn vue-tsc --noEmit                                                    main
+yarn run v1.22.11
+$ /home/lachlan/code/dump/vue3-vite/node_modules/.bin/vue-tsc --noEmit
+src/components/HelloWorld.cy.ts:6:14 - error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'ComponentPublicInstanceConstructor<{ $: ComponentInternalInstance; $data: {}; $props: Partial<{}> & Omit<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>> & VNodeProps & AllowedComponentProps & ComponentCustomProps, never>; ... 10 more ...; $watch(source: string | Function, cb: Function, ...' is not assignable to parameter of type 'ComponentOptionsWithObjectProps<__VLS_TypePropsToRuntimeProps<{ label: string; }>, {}, unknown, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, string[], string, Readonly<...> & { ...; }, {}>'.
+      Type 'ComponentPublicInstanceConstructor<{ $: ComponentInternalInstance; $data: {}; $props: Partial<{}> & Omit<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>> & VNodeProps & AllowedComponentProps & ComponentCustomProps, never>; ... 10 more ...; $watch(source: string | Function, cb: Function, ...' is not assignable to type 'ComponentOptionsBase<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>> & { [x: `on${Capitalize<string>}`]: ((...args: any[]) => any) | undefined; }, ... 8 more ..., {}>'.
+        Types of property 'setup' are incompatible.
+          Type '((this: void, props: Readonly<LooseRequired<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>>>>, ctx: SetupContext<...>) => void | ... 2 more ... | Promise<...>) | undefined' is not assignable to type '((this: void, props: Readonly<LooseRequired<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>> & { [x: `on${Capitalize<string>}`]: ((...args: any[]) => any) | undefined; }>>, ctx: SetupContext<...>) => void | ... 2 more ... | Promise<...>) | undefined'.
+            Type '(this: void, props: Readonly<LooseRequired<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>>>>, ctx: SetupContext<...>) => void | ... 2 more ... | Promise<...>' is not assignable to type '(this: void, props: Readonly<LooseRequired<Readonly<ExtractPropTypes<__VLS_TypePropsToRuntimeProps<{ label: string; }>>> & { [x: `on${Capitalize<string>}`]: ((...args: any[]) => any) | undefined; }>>, ctx: SetupContext<...>) => void | ... 2 more ... | Promise<...>'.
+              Types of parameters 'ctx' and 'ctx' are incompatible.
+                Type 'SetupContext<string[]>' is not assignable to type 'SetupContext<{}>'.
+                  Type '{}' is missing the following properties from type 'string[]': length, pop, push, concat, and 29 more.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+6     cy.mount(HelloWorld, {})
+               ~~~~~~~~~~
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+  node_modules/cypress/vue/dist/index.d.ts:82:25
+    82 export declare function mount<PropsOptions extends Readonly<ComponentPropsOptions>, RawBindings, D, C extends ComputedOptions = {}, M extends Record<string, Function> = {}, E extends EmitsOptions = Record<string, any>, Mixin extends ComponentOptionsMixin = ComponentOptionsMixin, Extends extends ComponentOptionsMixin = ComponentOptionsMixin, EE extends string = string>(componentOptions: ComponentOptionsWithObjectProps<PropsOptions, RawBindings, D, C, M, E, Mixin, Extends, EE>, options?: CyMountOptions<ExtractPropTypes<PropsOptions> & PublicProps, D>): Cypress.Chainable;
+                               ~~~~~
+    The last overload is declared here.
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+
+Found 1 error in src/components/HelloWorld.cy.ts:6
+```
